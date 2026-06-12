@@ -4,6 +4,8 @@ AI assistant for [buerli](https://buerli.io)/ClassCAD applications. Adds a chat 
 your app that creates and modifies 3D geometry through natural language — connect any
 tool-calling LLM; all CAD operations execute locally in the browser.
 
+![intro](/intro.jpg)
+
 ## Install
 
 ```bash
@@ -17,12 +19,12 @@ Peer dependencies: `@buerli.io/classcad`, `@buerli.io/core`, `@react-three/fiber
 
 The agent talks to any LLM through a small `LLMProvider` interface. Built-in providers:
 
-| Provider | Use for |
-| --- | --- |
-| `createAnthropicProvider({ apiKey })` | Claude — the Anthropic API or any compatible proxy |
-| `createAutoProvider({ apiKey, endpoint })` | OpenAI, Azure, or any OpenAI-compatible endpoint serving multiple models |
+| Provider                                    | Use for                                                                           |
+| ------------------------------------------- | --------------------------------------------------------------------------------- |
+| `createAnthropicProvider({ apiKey })`       | Claude — the Anthropic API or any compatible proxy                                |
+| `createAutoProvider({ apiKey, endpoint })`  | OpenAI, Azure, or any OpenAI-compatible endpoint serving multiple models          |
 | `createOpenAIProvider({ endpoint, model })` | A single Chat Completions endpoint — including local AI (Ollama, LM Studio, vLLM) |
-| your own `LLMProvider` | anything else — one `chat()` method (see Custom integration) |
+| your own `LLMProvider`                      | anything else — one `chat()` method (see Custom integration)                      |
 
 `createAutoProvider` is the most capable choice for OpenAI-style endpoints: it reads the
 endpoint's `/models` to discover what's available, routes each model to the right API
@@ -62,7 +64,7 @@ function App() {
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <Canvas>
-        <AgentCanvas />                      {/* invisible — lets the agent see the 3D view */}
+        <AgentCanvas /> {/* invisible — lets the agent see the 3D view */}
         <BuerliGeometry drawingId={drawingId} />
       </Canvas>
       <AgentPanel drawingId={drawingId} open={open} onClose={() => setOpen(false)} />
@@ -107,17 +109,17 @@ replacing `systemPrompt`, you can compose with the exported `DEFAULT_SYSTEM_PROM
 
 ## What the agent can do (tools)
 
-| Tool | Purpose |
-| --- | --- |
-| `call_api` | Any `v1.<domain>.<method>` ClassCAD call (also `facade.*` and drawing APIs) |
-| `call_api_batch` | Many calls in one turn; later calls reference earlier results (`"$0.id"`) |
-| `tree` / `find` / `inspect` | Read the structure tree, search nodes, full node detail |
-| `get_selection` / `set_selection` | Read or set the user's 3D selection |
-| `list_methods` / `describe_method` | Discover and document the 254 API methods |
-| `snapshot` | See the 3D viewport (PNG → vision) |
-| `load_file` | Import a user-attached CAD file |
-| `download` | Export STEP/STL/OFB as a download button in the chat |
-| `delegate` | Hand a sub-task to a specialist sub-agent |
+| Tool                               | Purpose                                                                     |
+| ---------------------------------- | --------------------------------------------------------------------------- |
+| `call_api`                         | Any `v1.<domain>.<method>` ClassCAD call (also `facade.*` and drawing APIs) |
+| `call_api_batch`                   | Many calls in one turn; later calls reference earlier results (`"$0.id"`)   |
+| `tree` / `find` / `inspect`        | Read the structure tree, search nodes, full node detail                     |
+| `get_selection` / `set_selection`  | Read or set the user's 3D selection                                         |
+| `list_methods` / `describe_method` | Discover and document the 254 API methods                                   |
+| `snapshot`                         | See the 3D viewport (PNG → vision)                                          |
+| `load_file`                        | Import a user-attached CAD file                                             |
+| `download`                         | Export STEP/STL/OFB as a download button in the chat                        |
+| `delegate`                         | Hand a sub-task to a specialist sub-agent                                   |
 
 Everything executes in the browser against the buerli API — no extra server for CAD.
 The ClassCAD knowledge (method registry + curated docs) ships via the `@classcad/skill`
@@ -150,16 +152,16 @@ const useAgent = createAgentStore() // zustand — React hook AND vanilla store
 const config: AgentConfig = {
   provider: createAutoProvider({ apiKey: '…', endpoint: '…' }),
   drawingId,
-  model: 'gpt-5.5',            // optional per-message override
-  reasoningEffort: 'low',      // optional
-  extraContext: MY_PROMPT,     // optional
+  model: 'gpt-5.5', // optional per-message override
+  reasoningEffort: 'low', // optional
+  extraContext: MY_PROMPT, // optional
 }
 
 function MyPanel() {
-  const messages = useAgent((s) => s.messages)   // UIMessage[]
+  const messages = useAgent((s) => s.messages) // UIMessage[]
   const isRunning = useAgent((s) => s.isRunning)
   const error = useAgent((s) => s.error)
-  const usage = useAgent((s) => s.usage)         // { inputTokens, outputTokens }
+  const usage = useAgent((s) => s.usage) // { inputTokens, outputTokens }
 
   const send = (text: string) => useAgent.getState().sendMessage(text, config)
   // attachments: sendMessage(text, config, images?: ImageInput[], files?: FileAttachment[])
