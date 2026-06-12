@@ -62,9 +62,14 @@
     "@classcad/skill": "0.x"
   },
   "devDependencies": {
+    "@buerli.io/classcad": "1.0.1",
+    "@buerli.io/core": "1.0.1",
+    "@react-three/fiber": "8.15.14",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "typescript": "^5.1.0"
+    "react": "^18.3.1",
+    "typescript": "^5.1.0",
+    "zustand": "^4.5.7"
   },
   "homepage": "https://github.com/awv-informatik/buerli-ai#readme",
   "bugs": {
